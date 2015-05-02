@@ -35,16 +35,16 @@ rankall <- function(outcome, ranK = "best") {
         thisColName = fullColNames[match(outcome,validOutcomes)]
     
     ## create a list of state values that exist in the data
-        states <- levels(factor(outcomeData[, 7]))
+        state <- levels(factor(outcomeData[, 7]))
     
     ## create a vector to hold the hospital names
-        hospitals <- vector(mode="character", length=0)
+        hospital <- vector(mode="character", length=0)
     
     ## for each state in the list, get the hospital with the given rank
-        for (s in seq(states) ) {
+        for (s in seq(state) ) {
             
             ## Buid a vector of all data for the 'requested 'next' state
-                data.state = outcomeData[outcomeData$State==states[s],]
+                data.state = outcomeData[outcomeData$State==state[s],]
                 
             ## order data by outcome
                 sorted.data.state = data.state[ order(as.numeric(data.state[[thisColName]]), data.state[["Hospital.Name"]], decreasing=FALSE,na.last=NA), ]
@@ -59,9 +59,9 @@ rankall <- function(outcome, ranK = "best") {
                 }
             
             ## append the hospital name to the hospital vector
-                leN = length(hospitals)
-                hospitals = append( hospitals, sorted.data.state[newRank,"Hospital.Name"], after=leN ) 
+                leN = length(hospital)
+                hospital = append( hospital, sorted.data.state[newRank,"Hospital.Name"], after=leN ) 
         }
     
-    return( data.frame(hospitals,states) )
+    return( data.frame(hospital,state) )
 }
